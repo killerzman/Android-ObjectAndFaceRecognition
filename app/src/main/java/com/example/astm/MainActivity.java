@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -29,8 +30,23 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     CameraBridgeViewBase cameraBridgeViewBase;
     BaseLoaderCallback baseLoaderCallback;
-    int counter = 0;
+//    int counter = 0; // variable used for mirroring screen in Grayscale
+    boolean startCanny = false;
 
+    public void Canny(View Button){
+
+        if (startCanny == false){
+
+            startCanny = true;
+
+        }
+
+        else{
+
+            startCanny = false;
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         Mat frame = inputFrame.rgba();
 
-        if (counter % 2 == 0){
+        // Used for mirroring screen in Grayscale
+
+       /* if (counter % 2 == 0){
 
             Core.flip(frame, frame, 1);
             Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2GRAY);
@@ -85,7 +103,17 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         }
 
-        counter = counter + 1;
+        counter = counter + 1;*/
+
+
+        // Edge Detection View
+
+        if (startCanny == true){
+
+            Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2GRAY);
+            Imgproc.Canny(frame, frame, 100, 80);
+
+        }
 
 
         return frame;
