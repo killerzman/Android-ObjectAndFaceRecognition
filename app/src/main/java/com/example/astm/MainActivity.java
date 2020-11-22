@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         counter = counter + 1;
 
 
-
-
-
-
         return frame;
     }
 
