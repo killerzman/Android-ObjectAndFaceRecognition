@@ -1,6 +1,12 @@
 package com.example.astm;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -17,13 +23,10 @@ import org.opencv.imgproc.Imgproc;
 import java.util.Random;
 
 
-
-
-
-
-
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
     CameraBridgeViewBase cameraBridgeViewBase;
     BaseLoaderCallback baseLoaderCallback;
     int counter = 0;
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+        }
 
 
         cameraBridgeViewBase = (JavaCameraView)findViewById(R.id.CameraView);
@@ -60,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
 
         };
-
-
-
 
     }
 
@@ -111,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             baseLoaderCallback.onManagerConnected(baseLoaderCallback.SUCCESS);
         }
 
-
-
     }
 
     @Override
@@ -131,6 +135,19 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         super.onDestroy();
         if (cameraBridgeViewBase!=null){
             cameraBridgeViewBase.disableView();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
