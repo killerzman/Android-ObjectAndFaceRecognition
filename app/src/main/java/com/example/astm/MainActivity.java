@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     Button facesButton;
     Button objectsButton;
+    Button swapCameraButton;
+
+    private int mCameraId = 0;
 
     // Edge Detection Function for the View
 /*    public void Canny(View Button){
@@ -89,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
             objectsButton.setText("Objects: ON");
 
+            facesButton.setEnabled(false);
+
+            swapCameraButton.setEnabled(false);
+
             if (!firstTImeYolo) {
 
                 String tinyYoloCfg = getApplicationContext().getFilesDir().getPath() + "/dnns/yolov3-tiny.cfg";
@@ -101,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             startYolo = false;
 
             objectsButton.setText("Objects");
+
+            facesButton.setEnabled(true);
+
+            swapCameraButton.setEnabled(true);
         }
 
     }
@@ -110,20 +121,21 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         if (!startFaces) {
 
-
             startFaces = true;
 
             facesButton.setText("Faces: ON");
 
-            if (!firstTimeFaces) {
+            objectsButton.setEnabled(false);
 
+            swapCameraButton.setEnabled(false);
+
+            if (!firstTimeFaces) {
 
                 firstTimeFaces = true;
                 String protoPath = getApplicationContext().getFilesDir().getPath() + "/dnns/deploy.prototxt";
                 String caffeWeights = getApplicationContext().getFilesDir().getPath() + "/dnns/res10_300x300_ssd_iter_140000.caffemodel";
 
                 detector = Dnn.readNetFromCaffe(protoPath, caffeWeights);
-
 
             }
 
@@ -133,11 +145,22 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             startFaces = false;
 
             facesButton.setText("Faces");
-        }
 
+            objectsButton.setEnabled(true);
+
+            swapCameraButton.setEnabled(true);
+
+        }
 
     }
 
+
+    public void swapCamera(View Button) {
+        mCameraId = mCameraId^1; //bitwise not operation to flip 1 to 0 and vice versa
+        cameraBridgeViewBase.disableView();
+        cameraBridgeViewBase.setCameraIndex(mCameraId);
+        cameraBridgeViewBase.enableView();
+    }
 
     public void copyFileOrDir(String path) {
         AssetManager assetManager = this.getAssets();
@@ -204,10 +227,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         cameraBridgeViewBase = (JavaCameraView) findViewById(R.id.CameraView);
         cameraBridgeViewBase.setVisibility(SurfaceView.VISIBLE);
+        cameraBridgeViewBase.setCameraIndex(mCameraId);
         cameraBridgeViewBase.setCvCameraViewListener(this);
 
         facesButton = findViewById(R.id.faces);
         objectsButton = findViewById(R.id.objects);
+        swapCameraButton = findViewById(R.id.swapCamera);
 
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         baseLoaderCallback = new BaseLoaderCallback(this) {

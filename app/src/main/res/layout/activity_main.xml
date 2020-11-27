@@ -42,6 +42,16 @@
             android:layout_weight="1"
             android:text="Objects"
             android:onClick="Yolo"/>
+
+        <Button
+            android:id="@+id/swapCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="5sp"
+            android:layout_weight="1"
+            android:text="Swap Camera"
+            android:onClick="swapCamera"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
