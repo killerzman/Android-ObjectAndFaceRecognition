@@ -42,7 +42,6 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private static final int MY_READ_EXTERNAL_STORAGE_REQUEST_CODE = 101;
     private static final int MY_WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 102;
     CameraBridgeViewBase cameraBridgeViewBase;
     BaseLoaderCallback baseLoaderCallback;
@@ -145,14 +144,13 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_EXTERNAL_STORAGE_REQUEST_CODE);
-        }
         if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         }
 
-        copyFileOrDir("dnns");
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            copyFileOrDir("dnns");
+        }
 
         cameraBridgeViewBase = (JavaCameraView)findViewById(R.id.CameraView);
         cameraBridgeViewBase.setVisibility(SurfaceView.VISIBLE);
@@ -284,16 +282,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
-        if(requestCode == MY_READ_EXTERNAL_STORAGE_REQUEST_CODE){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "read storage permission granted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "read storage permission denied", Toast.LENGTH_LONG).show();
-            }
-        }
-        if(requestCode == MY_WRITE_EXTERNAL_STORAGE_REQUEST_CODE){
+        else if(requestCode == MY_WRITE_EXTERNAL_STORAGE_REQUEST_CODE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this, "write storage permission granted", Toast.LENGTH_LONG).show();
+                copyFileOrDir("dnns");
             } else {
                 Toast.makeText(this, "write storage permission denied", Toast.LENGTH_LONG).show();
             }
