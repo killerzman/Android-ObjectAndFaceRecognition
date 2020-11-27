@@ -9,6 +9,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfRect;
 import org.opencv.core.MatOfRect2d;
 import org.opencv.core.MatOfRotatedRect;
 import org.opencv.core.Scalar;
@@ -889,8 +890,7 @@ public class Dnn {
 
     /**
      * Performs non maximum suppression given boxes and corresponding scores.
-     *
-     * @param bboxes a set of bounding boxes to apply NMS.
+     *  @param bboxes a set of bounding boxes to apply NMS.
      * @param scores a set of corresponding confidences.
      * @param score_threshold a threshold used to filter boxes by score.
      * @param nms_threshold a threshold used in non maximum suppression.

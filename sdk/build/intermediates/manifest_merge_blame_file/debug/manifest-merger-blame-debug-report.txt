@@ -5,10 +5,10 @@
 5    android:versionName="3.4.12" >
 6
 7    <uses-sdk
-7-->C:\Users\vladt\AndroidStudioProjects\ASTM\sdk\java\AndroidManifest.xml:7:5-73
+7-->D:\Programe_diferite_platforme\Programe_Android\Proiect_Git\ASTM\sdk\java\AndroidManifest.xml:7:5-73
 8        android:minSdkVersion="16"
-8-->C:\Users\vladt\AndroidStudioProjects\ASTM\sdk\java\AndroidManifest.xml:7:15-40
+8-->D:\Programe_diferite_platforme\Programe_Android\Proiect_Git\ASTM\sdk\java\AndroidManifest.xml:7:15-40
 9        android:targetSdkVersion="30" />
-9-->C:\Users\vladt\AndroidStudioProjects\ASTM\sdk\java\AndroidManifest.xml:7:41-70
+9-->D:\Programe_diferite_platforme\Programe_Android\Proiect_Git\ASTM\sdk\java\AndroidManifest.xml:7:41-70
 10
 11</manifest>
